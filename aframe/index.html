@@ -4,20 +4,36 @@
     <meta charset="utf-8">
     <title>Lab2 - VR application</title>
     <meta name="description" content="Basic example for Point Cloud component."></meta>
-    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.2/dist/aframe-environment-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/rdub80/aframe-gui@master/dist/aframe-gui.min.js"></script>
     <script src="js/aframe-pointcloud-component.js"></script>
   </head>
   <body>
     <a-scene>
       <a-assets>
         <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
-        <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg">
       </a-assets>
+      <a-entity camera look-controls wasd-controls position="0 1.6 0">
+        <a-gui-cursor id="cursor" raycaster="objects: [gui-interactable]" fuse="false" design="dot"></a-gui-cursor>
+      </a-entity>
+    
+      <a-gui-flex-container 
+       flex-direction="column" justify-content="center" align-items="normal" 
+       component-padding="0.1" opacity="0.7" width="2.5" height="4.5"
+       position="3 2 -2.5" rotation="0 -45 0">
+    
+       <a-gui-button id="rotateBtn" width="2" height="0.75" value="Rotate" font-family="Arial"></a-gui-button>
+       <a-gui-button id="moveBtn" width="2" height="0.75" value="Move Up" font-family="Arial"></a-gui-button>
+       <a-gui-button id="moveDownBtn" width="2" height="0.75" value="Move Down" font-family="Arial"></a-gui-button>
+       <a-gui-button id="zoomBtn" width="2" height="0.75" value="Zoom In" font-family="Arial"></a-gui-button>
+       <a-gui-button id="zoomOutBtn" width="2" height="0.75" value="Zoom Out" font-family="Arial"></a-gui-button>
+    
+      </a-gui-flex-container>
 
-      <a-plane src="#groundTexture" rotation="-90 0 0" height="100" width="100"></a-plane>
+      <a-entity environment="preset: arches; groundColor: #445; grid: cross"></a-entity>
       <a-light type="ambient" color="#445451"></a-light>
       <a-light type="point" intensity="2" position="2 4 4"></a-light>
-      <a-sky height="2048" radius="30" src="#skyTexture" theta-length="90" width="2048"></a-sky>
       <a-entity laser-controls line="color: red; opacity: 0.75"></a-entity>
       <a-pointcloud 
         scale="0.1 0.1 0.1" 
@@ -26,15 +42,44 @@
         src="url(sculpt.ply)" 
         size="0.01">
       </a-pointcloud>
-      <a-pointcloud 
-        scale="0.5 0.5 0.5" 
-        position="1.5 2 0.5" 
-        src="url(Sphere.ply)" 
-        size="0.05"
-        texture="url(VGTU-logo.png)"
-        depthWrite="false">
-      </a-pointcloud>
 
     </a-scene>
+    <script>
+      const model = document.querySelector('a-pointcloud');
+  
+      document.getElementById('rotateBtn').addEventListener('click', function() {
+          let rotation = model.getAttribute('rotation');
+          rotation.y += 45;
+          model.setAttribute('rotation', rotation);
+      });
+  
+      document.getElementById('moveBtn').addEventListener('click', function() {
+          let position = model.getAttribute('position');
+          position.y += 0.5;
+          model.setAttribute('position', position);
+      });
+
+      document.getElementById('zoomBtn').addEventListener('click', function() {
+          let scale = model.getAttribute('scale');
+          scale.x *= 1.2;
+          scale.y *= 1.2;
+          scale.z *= 1.2;
+          model.setAttribute('scale', scale);
+      });
+
+       document.getElementById('moveDownBtn').addEventListener('click', function() {
+          let position = model.getAttribute('position');
+          position.y -= 0.5; // Subtracts height
+          model.setAttribute('position', position);
+      });
+
+       document.getElementById('zoomOutBtn').addEventListener('click', function() {
+          let scale = model.getAttribute('scale');
+          scale.x /= 1.2; // Decreases size
+          scale.y /= 1.2;
+          scale.z /= 1.2;
+          smodel.setAttribute('scale', scale);
+      });
+  </script>
   </body>
 </html>
