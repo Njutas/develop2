@@ -22,3 +22,7 @@ There are many open source alternatives to build virtual reality application. On
   - You can try to use Apache: https://www.raspberrypi.org/documentation/remote-access/web-server/apache.md 
   - Tomcat: http://androidsrc.net/installing-tomcat8-raspberry-pi-3/ 
   - HFS: http://www.rejetto.com/hfs/ or any other server.
+
+# Testavimo aplinkos
+  - Chrome. Versija: 144.0.7559.133
+  - Microsoft edge. Versija: 145.0.3800.58
